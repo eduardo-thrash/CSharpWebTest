@@ -3,8 +3,9 @@ using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading;
 
-namespace UtilAction
+namespace Util
 {
     public class UtilAction
     {
@@ -12,14 +13,14 @@ namespace UtilAction
         /// Method to access a web page through a URL
         /// </summary>
         /// <param name="driverUrl">Declared controller type IWebDriver</param>
-        /// <param name="Url">Website URL</param>
+        /// <param name="url">Website URL</param>
         /// <param name="maximize">Option to maximize or not browser window</param>
-        public void AccessPage(IWebDriver driverUrl, string Url, bool maximize = true)
+        public void AccessPage(IWebDriver driverUrl, string url, bool maximize = true)
         {
             if (maximize)
                 driverUrl.Manage().Window.Maximize();
 
-            driverUrl.Navigate().GoToUrl(Url);
+            driverUrl.Navigate().GoToUrl(url);
         }
 
         #region Basic
@@ -28,84 +29,87 @@ namespace UtilAction
         /// Method to clear information from an input type field
         /// /// </summary>
         /// <param name="driverClear"> Navigator controller </param>
-        /// <param name="ElementClear"> Page input type element on the that it field clear</param>
-        /// <param name="Timeout"> Wait for generate error </param>
-        public void Clear(IWebDriver driverClear, By ElementClear, int Timeout = 10, int tried = 10)
+        /// <param name="elementClear"> Page input type element on the that it field clear</param>
+        /// <param name="timeout"> Wait for generate error </param>
+        /// <param name="tried"></param>
+        /// <exception cref="Exception"></exception>
+        public void Clear(IWebDriver driverClear, By elementClear, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitClear = new WebDriverWait(driverClear, TimeSpan.FromSeconds(10));
+                    var waitClear = new WebDriverWait(driverClear, TimeSpan.FromSeconds(timeout));
 
-                    WaitClear.Until(drv => drv.FindElement(ElementClear).Displayed);
+                    waitClear.Until(drv => drv.FindElement(elementClear).Displayed);
 
-                    WaitClear.Until(drv => drv.FindElement(ElementClear).Enabled);
+                    waitClear.Until(drv => drv.FindElement(elementClear).Enabled);
 
                     var action = new Actions(driverClear);
 
-                    action.MoveToElement(driverClear.FindElement(ElementClear));
+                    action.MoveToElement(driverClear.FindElement(elementClear));
 
                     action.Release().Build().Perform();
 
-                    driverClear.FindElement(ElementClear).Clear();
+                    driverClear.FindElement(elementClear).Clear();
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception ex)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(ex.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statement);
         }
 
         /// <summary>
-        /// Method for aplicate click on element.
+        /// Method for apply click on element.
         /// </summary>
         /// <param name="driverClick"> Navigator controller </param>
-        /// <param name="ElementClick"> Page element on the that make click it </param>
-        /// <param name="Timeout"> Wait for generate error </param>
-        public void Click(IWebDriver driverClick, By ElementClick, int Timeout = 10, int tried = 10)
+        /// <param name="elementClick"> Page element on the that make click it </param>
+        /// <param name="timeout"> Wait for generate error </param>
+        /// <param name="tried"></param>
+        public void Click(IWebDriver driverClick, By elementClick, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitClick = new WebDriverWait(driverClick, TimeSpan.FromSeconds(Timeout));
+                    var waitClick = new WebDriverWait(driverClick, TimeSpan.FromSeconds(timeout));
 
-                    WaitClick.Until(drv => drv.FindElement(ElementClick).Displayed);
+                    waitClick.Until(drv => drv.FindElement(elementClick).Displayed);
 
-                    WaitClick.Until(drv => drv.FindElement(ElementClick).Enabled);
+                    waitClick.Until(drv => drv.FindElement(elementClick).Enabled);
 
                     var action = new Actions(driverClick);
 
-                    action.MoveToElement(driverClick.FindElement(ElementClick));
+                    action.MoveToElement(driverClick.FindElement(elementClick));
 
                     action.Release().Build().Perform();
 
-                    driverClick.FindElement(ElementClick).Click();
+                    driverClick.FindElement(elementClick).Click();
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception ex)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(ex.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statement);
         }
 
         /// <summary>
