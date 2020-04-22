@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpWebTest", "CSharpWebTest\CSharpWebTest.csproj", "{D55002AF-F1A6-415F-89F0-8B78A1B7A939}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpSeleniumLibrary", "CSharpSeleniumLibrary\CSharpSeleniumLibrary.csproj", "{1627FD15-BAF9-48AC-B5C1-D4FCC532739B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebActionsUtil", "CSharpSeleniumLibrary\WebActionsUtil.csproj", "{1627FD15-BAF9-48AC-B5C1-D4FCC532739B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{844EC901-B08E-420C-AA96-EDC1AECC1294}"
 EndProject

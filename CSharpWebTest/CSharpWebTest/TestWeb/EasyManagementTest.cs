@@ -1,16 +1,16 @@
-﻿using CSharpWebTest.StepDefinitions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
 using System.Threading;
+using CSharpWebTest.StepDefinitions.EasyManagement;
 
 namespace CSharpWebTest.TestWeb
 {
     [TestFixture]
-    public class EasyManagmentTest
+    public class EasyManagementTest
     {
-        private readonly EasyManagmentSteps emStep = new EasyManagmentSteps();
+        private readonly CommonSteps _comStep = new CommonSteps();
+        private readonly MenuSteps _menStep = new MenuSteps();
 
         private IWebDriver _driver;
 
@@ -18,15 +18,21 @@ namespace CSharpWebTest.TestWeb
         [Ignore("Waiting for Joe to fix his bugs", Until = "2020-04-12 09:40:00Z")]
         public void SuccessfulDiligenceOfClient()
         {
-            emStep.GivenIHaveAccessToEasyManagmentPage(_driver);
+            _comStep.GivenIHaveAccessToEasyManagementPage(_driver);
+
+            //Thread.Sleep(10000);
+
+            //_driver.FindElement(By.XPath("//a[@class='menu-toggle rounded']")).Click();
+
+            _menStep.WhenISelectPrincipalMenu(_driver);
 
             Thread.Sleep(6000);
 
-            Assert.Warn("Warning message");
+            //Assert.Warn("Warning message");
 
-            Warn.Unless(2 + 2 == 5);
+            //Warn.Unless(2 + 2 == 5);
 
-            Console.WriteLine("Si cumple la condición");
+            //Console.WriteLine("Si cumple la condición");
         }
 
         [SetUp]

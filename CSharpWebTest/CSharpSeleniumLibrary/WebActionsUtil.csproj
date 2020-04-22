@@ -6,19 +6,24 @@
     <Authors>Jose Eduardo Montenegro Quintero</Authors>
     <PackageId>UtilActionSelenium</PackageId>
     <Product>SeleniumCommonAction</Product>
-    <Version>1.0.4.0</Version>
+    <Version>1.0.6.0</Version>
     <RepositoryUrl>https://github.com/eduardo-thrash/CSharpWebTest</RepositoryUrl>
     <Description>Usage methods for actions on web parts using Selenium API. Methods with locator parameterization, explicit waits and WebDriver.</Description>
-    <PackageReleaseNotes>Version 1.0.4.0 Implementation
+    <PackageReleaseNotes>Version 1.0.6.0 Implementation
 - Validation improved about actions in objects.
+- Adjustment in issue presented for new validations
 
 * It is recommended to read parameter descriptions and each method. In them, it is explained how to use each method.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>D:\AutomationEDThrash\C# - Automation Selenium Web\CSharpWebTest\CSharpWebTest\CSharpSeleniumLibrary\CSharpSeleniumLibrary.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\AutomationEDThrash\C# - Automation Selenium Web\CSharpWebTest\CSharpWebTest\CSharpSeleniumLibrary\WebActionsUtil.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

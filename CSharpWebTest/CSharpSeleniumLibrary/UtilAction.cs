@@ -1,12 +1,15 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
-namespace Util
+namespace WebActionsUtil
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class UtilAction
     {
         /// <summary>
@@ -31,8 +34,7 @@ namespace Util
         /// <param name="driverClear"> Navigator controller </param>
         /// <param name="elementClear"> Page input type element on the that it field clear</param>
         /// <param name="timeout"> Wait for generate error </param>
-        /// <param name="tried"></param>
-        /// <exception cref="Exception"></exception>
+        /// <param name="tried">Limit attempts to generate error</param>
         public void Clear(IWebDriver driverClear, By elementClear, int timeout = 10, int tried = 10)
         {
             var statement = false;
@@ -66,7 +68,7 @@ namespace Util
 
                     Thread.Sleep(1000);
                 }
-            } while (statement);
+            } while (!statement);
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace Util
         /// <param name="driverClick"> Navigator controller </param>
         /// <param name="elementClick"> Page element on the that make click it </param>
         /// <param name="timeout"> Wait for generate error </param>
-        /// <param name="tried"></param>
+        /// <param name="tried">Limit attempts to generate error</param>
         public void Click(IWebDriver driverClick, By elementClick, int timeout = 10, int tried = 10)
         {
             var statement = false;
@@ -109,193 +111,197 @@ namespace Util
 
                     Thread.Sleep(1000);
                 }
-            } while (statement);
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for entering text to input type field
         /// </summary>
         /// <param name="driverSendKeys"> Navigator controller </param>
-        /// <param name="ElementSendKeys"> Page element on the that aplicate text on input field. </param>
-        /// <param name="Text">Text to add on input field</param>
-        /// <param name="Timeout"> Wait for generate error </param>
-        public void Sendkeys(IWebDriver driverSendKeys, By ElementSendKeys, string Text, int Timeout = 10, int tried = 10)
+        /// <param name="elementSendKeys"> Page element on the that apply text on input field. </param>
+        /// <param name="text">Text to add on input field</param>
+        /// <param name="timeout"> Wait for generate error </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void Sendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(Timeout));
+                    var waitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(timeout));
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Displayed);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Displayed);
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Enabled);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Enabled);
 
                     var action = new Actions(driverSendKeys);
 
-                    action.MoveToElement(driverSendKeys.FindElement(ElementSendKeys));
+                    action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
                     action.Release().Build().Perform();
 
-                    driverSendKeys.FindElement(ElementSendKeys).Click();
+                    driverSendKeys.FindElement(elementSendKeys).Click();
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Text);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception ex)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(ex.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for entering text to input type field
         /// </summary>
         /// <param name="driverSendKeys"> Navigator controller </param>
-        /// <param name="ElementSendKeys"> Page element on the that aplicate text on input field. </param>
-        /// <param name="Text">Text to add on input field</param>
-        /// <param name="Timeout"> Wait for generate error </param>
-        public void EnterAfterSendkeys(IWebDriver driverSendKeys, By ElementSendKeys, string Text, int Timeout = 10, int tried = 10)
+        /// <param name="elementSendKeys"> Page element on the that apply text on input field. </param>
+        /// <param name="text">Text to add on input field</param>
+        /// <param name="timeout"> Wait for generate error </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void EnterAfterSendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(Timeout));
+                    var waitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(timeout));
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Displayed);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Displayed);
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Enabled);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Enabled);
 
                     var action = new Actions(driverSendKeys);
 
-                    action.MoveToElement(driverSendKeys.FindElement(ElementSendKeys));
+                    action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
                     action.Release().Build().Perform();
 
-                    driverSendKeys.FindElement(ElementSendKeys).Click();
+                    driverSendKeys.FindElement(elementSendKeys).Click();
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Text);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Keys.Enter);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(Keys.Enter);
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for entering text to input type field
         /// </summary>
         /// <param name="driverSendKeys"> Navigator controller </param>
-        /// <param name="ElementSendKeys"> Page element on the that aplicate text on input field. </param>
-        /// <param name="Text">Text to add on input field</param>
-        /// <param name="Timeout"> Wait for generate error </param>
-        public void TabAfterSendkeys(IWebDriver driverSendKeys, By ElementSendKeys, string Text, int Timeout = 10, int tried = 1)
+        /// <param name="elementSendKeys"> Page element on the that aplicate text on input field. </param>
+        /// <param name="text">Text to add on input field</param>
+        /// <param name="timeout"> Wait for generate error </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void TabAfterSendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 1)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(Timeout));
+                    var waitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(timeout));
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Displayed);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Displayed);
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Enabled);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Enabled);
 
                     var action = new Actions(driverSendKeys);
 
-                    action.MoveToElement(driverSendKeys.FindElement(ElementSendKeys));
+                    action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
                     action.Release().Build().Perform();
 
-                    driverSendKeys.FindElement(ElementSendKeys).Click();
+                    driverSendKeys.FindElement(elementSendKeys).Click();
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Text);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Keys.Tab);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(Keys.Tab);
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for entering text to input type field
         /// </summary>
         /// <param name="driverSendKeys"> Navigator controller. </param>
-        /// <param name="ElementSendKeys"> Page element on the that aplicate text on input field. </param>
-        /// <param name="Text">Text to add on input field. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void ClearBeforeSendkeys(IWebDriver driverSendKeys, By ElementSendKeys, string Text, int Timeout = 10, int tried = 1)
+        /// <param name="elementSendKeys"> Page element on the that aplicate text on input field. </param>
+        /// <param name="text">Text to add on input field. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void ClearBeforeSendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 1)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(Timeout));
+                    var waitSendKeys = new WebDriverWait(driverSendKeys, TimeSpan.FromSeconds(timeout));
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Displayed);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Displayed);
 
-                    WaitSendKeys.Until(drv => drv.FindElement(ElementSendKeys).Enabled);
+                    waitSendKeys.Until(drv => drv.FindElement(elementSendKeys).Enabled);
 
                     var action = new Actions(driverSendKeys);
 
-                    action.MoveToElement(driverSendKeys.FindElement(ElementSendKeys));
+                    action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
                     action.Release().Build().Perform();
 
-                    driverSendKeys.FindElement(ElementSendKeys).Click();
+                    driverSendKeys.FindElement(elementSendKeys).Click();
 
-                    driverSendKeys.FindElement(ElementSendKeys).Clear();
+                    driverSendKeys.FindElement(elementSendKeys).Clear();
 
-                    driverSendKeys.FindElement(ElementSendKeys).SendKeys(Text);
+                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (!statement);
         }
 
         #endregion Basic
@@ -306,369 +312,445 @@ namespace Util
         /// Method for select item of a dropdown.
         /// </summary>
         /// <param name="driverList"> Navigator controller </param>
-        /// <param name="ListItem"> Dropdown of page on the that the options are displayed. </param>
-        /// <param name="Option"> Option text to select. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectDropDownList(IWebDriver driverList, By ListItem, string Option, int Timeout = 10, int tried = 10)
+        /// <param name="listItem"> Dropdown of page on the that the options are displayed. </param>
+        /// <param name="option"> Option text to select. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statement = false;
 
-            bool exit = false;
+            var triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
 
-                    WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
 
                     var action = new Actions(driverList);
 
-                    action.MoveToElement(driverList.FindElement(ListItem));
+                    action.MoveToElement(driverList.FindElement(listItem));
 
                     action.Release().Build().Perform();
 
-                    driverList.FindElement(ListItem).Click();
+                    driverList.FindElement(listItem).Click();
 
-                    exit = true;
+                    statement = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (!statement);
 
-            exit = false;
+            var statementOption = false;
 
-            count = 1;
+            triedCount = 0;
 
-            while (!exit)
+            do
             {
+                triedCount++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
+                    var waitOptions = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]")).Displayed);
+                    waitOptions.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + option + "')]")).Displayed);
 
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]")).Enabled);
+                    waitOptions.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + option + "')]")).Enabled);
 
                     Actions actionList = new Actions(driverList);
 
-                    var OptionElement = driverList.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]"));
+                    var optionElement = driverList.FindElement(By.XPath("//*[contains(text(),'" + option + "')]"));
 
-                    actionList.MoveToElement(OptionElement).Release().Click().Build().Perform();
+                    actionList.MoveToElement(optionElement).Release().Click().Build().Perform();
 
-                    exit = true;
+                    statementOption = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCount >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementOption);
         }
 
         /// <summary>
         /// Method for select item of a dropdown.
         /// </summary>
         /// <param name="driverList"> Navigator controller </param>
-        /// <param name="ListItem"> Dropdown of page on the that the options are displayed. </param>
-        /// <param name="Option"> Option text to select. </param>
-        /// <param name="Tag"> HTML listing options tag. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectDropDownList(IWebDriver driverList, By ListItem, string Option, string Tag, int Timeout = 10, int tried = 10)
+        /// <param name="listItem"> Dropdown of page on the that the options are displayed. </param>
+        /// <param name="option"> Option text to select. </param>
+        /// <param name="tag"> HTML listing options tag. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, string tag, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statementList = false;
 
-            bool exit = false;
+            var triedCountList = 0;
 
-            while (!exit)
+            do
             {
+                triedCountList++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
 
-                    WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
 
                     var action = new Actions(driverList);
 
-                    action.MoveToElement(driverList.FindElement(ListItem));
+                    action.MoveToElement(driverList.FindElement(listItem));
 
                     action.Release().Build().Perform();
 
-                    driverList.FindElement(ListItem).Click();
+                    driverList.FindElement(listItem).Click();
 
-                    exit = true;
+                    statementList = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCountList >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementList);
 
-            exit = false;
+            var statementOption = false;
 
-            count = 1;
+            var triedCountOption = 0;
 
-            while (!exit)
+            do
             {
+                triedCountOption++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
+                    var waitOption = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]")).Displayed);
+                    waitOption.Until(drv => drv.FindElement(By.XPath("//" + tag + "[contains(text(),'" + option + "')]")).Displayed);
 
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]")).Enabled);
+                    waitOption.Until(drv => drv.FindElement(By.XPath("//" + tag + "[contains(text(),'" + option + "')]")).Enabled);
 
                     var actionList = new Actions(driverList);
 
-                    IWebElement OptionElement = driverList.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]"));
+                    var optionElement = driverList.FindElement(By.XPath("//" + tag + "[contains(text(),'" + option + "')]"));
 
-                    actionList.MoveToElement(OptionElement).Release().Click().Build().Perform();
+                    actionList.MoveToElement(optionElement).Release().Click().Build().Perform();
 
-                    exit = true;
+                    statementOption = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCountOption >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementOption);
         }
 
         /// <summary>
         /// Method for select item of a ComboBox list.
         /// </summary>
         /// <param name="driverList"> Navigator controller </param>
-        /// <param name="ListItem"> ComboBox list of page on the that the options are displayed. </param>
-        /// <param name="Option"> Option text to select. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectComboAutocompleteList(IWebDriver driverList, By ListItem, string Option, int Timeout = 10, int tried = 10)
+        /// <param name="listItem"> ComboBox list of page on the that the options are displayed. </param>
+        /// <param name="textOption"> Option text to select. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statementList = false;
 
-            bool exit = false;
+            var triedCountList = 0;
 
-            while (!exit)
+            do
             {
+                triedCountList++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                    WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
-                    WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
-                    driverList.FindElement(ListItem).Click();
-                    driverList.FindElement(ListItem).SendKeys(Option);
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    exit = true;
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
+
+                    driverList.FindElement(listItem).Click();
+
+                    driverList.FindElement(listItem).SendKeys(textOption);
+
+                    statementList = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCountList >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementList);
 
-            count = 1;
+            var statementOption = false;
 
-            exit = false;
+            var triedCountOption = 0;
 
-            while (!exit)
+            do
             {
+                triedCountOption++;
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]")).Displayed);
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]")).Enabled);
-                    Actions actionList = new Actions(driverList);
-                    IWebElement OptionElement = driverList.FindElement(By.XPath("//*[contains(text(),'" + Option + "')]"));
-                    actionList.MoveToElement(OptionElement).Release().Click().Build().Perform();
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    exit = true;
+                    waitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + textOption + "')]")).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(By.XPath("//*[contains(text(),'" + textOption + "')]")).Enabled);
+
+                    var actionList = new Actions(driverList);
+
+                    var optionElement = driverList.FindElement(By.XPath("//*[contains(text(),'" + textOption + "')]"));
+
+                    actionList.MoveToElement(optionElement).Release().Click().Build().Perform();
+
+                    statementOption = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCountOption >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementOption);
         }
 
         /// <summary>
         /// Method for select item of a ComboBox list.
         /// </summary>
         /// <param name="driverList"> Navigator controller </param>
-        /// <param name="ListItem"> ComboBox list of page on the that the options are displayed. </param>
-        /// <param name="Option"> Option text to select. </param>
-        /// /// <param name="Tag"> HTML listing options tag. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectComboAutocompleteList(IWebDriver driverList, By ListItem, string Option, string Tag, int Timeout = 10, int tried = 10)
+        /// <param name="listItem"> ComboBox list of page on the that the options are displayed. </param>
+        /// <param name="textOption"> Option text to select. </param>
+        /// /// <param name="tag"> HTML listing options tag. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, string tag, int timeout = 10, int tried = 10)
         {
-            int count = 1;
+            var statementList = false;
 
-            bool exit = false;
+            var triedCountList = 0;
 
-            while (!exit)
+            do
             {
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                    WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
-                    WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
-                    driverList.FindElement(ListItem).Click();
-                    driverList.FindElement(ListItem).SendKeys(Option);
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    exit = true;
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
+
+                    driverList.FindElement(listItem).Click();
+
+                    driverList.FindElement(listItem).SendKeys(textOption);
+
+                    statementList = true;
                 }
-                catch (Exception Fail)
+                catch (Exception fail)
                 {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    if (triedCountList >= tried) throw new Exception(fail.Message);
 
-                    count++;
+                    Thread.Sleep(1000);
                 }
-            }
+            } while (statementList);
 
-            count = 1;
+            var statementOption = false;
 
-            exit = false;
+            var triedCountOption = 0;
 
-            while (!exit)
+            do
             {
                 try
                 {
-                    WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]")).Displayed);
-                    WaitList.Until(drv => drv.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]")).Enabled);
-                    Actions actionList = new Actions(driverList);
-                    IWebElement OptionElement = driverList.FindElement(By.XPath("//" + Tag + "[contains(text(),'" + Option + "')]"));
-                    actionList.MoveToElement(OptionElement).Release().Click().Build().Perform();
-                    exit = true;
-                }
-                catch (Exception Fail)
-                {
-                    if (count >= tried)
-                        throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
 
-                    count++;
+                    waitList.Until(drv => drv.FindElement(By.XPath("//" + tag + "[contains(text(),'" + textOption + "')]")).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(By.XPath("//" + tag + "[contains(text(),'" + textOption + "')]")).Enabled);
+
+                    var actionList = new Actions(driverList);
+
+                    var optionElement = driverList.FindElement(By.XPath("//" + tag + "[contains(text(),'" + textOption + "')]"));
+
+                    actionList.MoveToElement(optionElement).Release().Click().Build().Perform();
+
+                    statementOption = true;
                 }
-            }
+                catch (Exception fail)
+                {
+                    if (triedCountOption >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (statementOption);
         }
 
         /// <summary>
         /// Method for selected option by text.
         /// </summary>
         /// <param name="driverList"> Navigator controller. </param>
-        /// <param name="ListItem"> Select of page with options. </param>
-        /// <param name="ByText"> Text of option to select. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectByText(IWebDriver driverList, By ListItem, string ByText, int Timeout = 10)
+        /// <param name="listItem"> Select of page with options. </param>
+        /// <param name="byText"> Text of option to select. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectByText(IWebDriver driverList, By listItem, string byText, int timeout = 10, int tried = 10)
         {
-            try
-            {
-                WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
-                WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
+            var statement = false;
 
-                IWebElement Select = driverList.FindElement(ListItem);
-                SelectElement List = new SelectElement(Select);
-                List.SelectByText(ByText);
-            }
-            catch (Exception Fail)
+            var triedCount = 0;
+
+            do
             {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                triedCount++;
+                try
+                {
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
+
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
+
+                    var select = driverList.FindElement(listItem);
+
+                    var list = new SelectElement(select);
+
+                    list.SelectByText(byText);
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for selected option by Index.
         /// </summary>
         /// <param name="driverList"> Navigator controller. </param>
-        /// <param name="ListItem"> Select of page with options. </param>
-        /// <param name="ByIndex"> Index of option to select. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectByIndex(IWebDriver driverList, By ListItem, int ByIndex, int Timeout = 10)
+        /// <param name="listItem"> Select of page with options. </param>
+        /// <param name="byIndex"> Index of option to select. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectByIndex(IWebDriver driverList, By listItem, int byIndex, int timeout = 10, int tried = 10)
         {
-            try
-            {
-                WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
-                WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
+            var statement = false;
 
-                IWebElement Select = driverList.FindElement(ListItem);
-                SelectElement List = new SelectElement(Select);
-                List.SelectByIndex(ByIndex);
-            }
-            catch (Exception Fail)
+            var triedCount = 0;
+
+            do
             {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                triedCount++;
+                try
+                {
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
+
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
+
+                    var select = driverList.FindElement(listItem);
+
+                    var list = new SelectElement(select);
+
+                    list.SelectByIndex(byIndex);
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for selected option by Value.
         /// </summary>
         /// <param name="driverList"> Navigator controller. </param>
-        /// <param name="ListItem"> Select of page with options. </param>
-        /// <param name="ByValue"> Value of option to select. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectByValue(IWebDriver driverList, By ListItem, string ByValue, int Timeout = 10)
+        /// <param name="listItem"> Select of page with options. </param>
+        /// <param name="byValue"> Value of option to select. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void SelectByValue(IWebDriver driverList, By listItem, string byValue, int timeout = 10, int tried = 10)
         {
-            try
-            {
-                WebDriverWait WaitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(Timeout));
-                WaitList.Until(drv => drv.FindElement(ListItem).Displayed);
-                WaitList.Until(drv => drv.FindElement(ListItem).Enabled);
+            var statement = false;
 
-                IWebElement Select = driverList.FindElement(ListItem);
-                SelectElement List = new SelectElement(Select);
-                List.SelectByValue(ByValue);
-            }
-            catch (Exception Fail)
+            var triedCount = 0;
+
+            do
             {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                triedCount++;
+                try
+                {
+                    var waitList = new WebDriverWait(driverList, TimeSpan.FromSeconds(timeout));
+
+                    waitList.Until(drv => drv.FindElement(listItem).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(listItem).Enabled);
+
+                    var select = driverList.FindElement(listItem);
+
+                    var list = new SelectElement(select);
+
+                    list.SelectByValue(byValue);
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
         }
 
         /// <summary>
         /// Method for placing focus on an element.
         /// </summary>
         /// <param name="driverFocus"> Navigator controller. </param>
-        /// <param name="ItemFocus"> Element on which the focus is placed. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void SelectItemInFocus(IWebDriver driverFocus, By ItemFocus, int Timeout = 10)
+        /// <param name="itemFocus"> Element on which the focus is placed. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        public void SelectItemInFocus(IWebDriver driverFocus, By itemFocus, int timeout = 10)
         {
             try
             {
-                WebDriverWait WaitList = new WebDriverWait(driverFocus, TimeSpan.FromSeconds(Timeout));
-                WaitList.Until(drv => drv.FindElement(ItemFocus).Displayed);
-                WaitList.Until(drv => drv.FindElement(ItemFocus).Enabled);
+                var waitList = new WebDriverWait(driverFocus, TimeSpan.FromSeconds(timeout));
 
-                IWebElement Select = driverFocus.FindElement(ItemFocus);
+                waitList.Until(drv => drv.FindElement(itemFocus).Displayed);
+
+                waitList.Until(drv => drv.FindElement(itemFocus).Enabled);
+
+                var select = driverFocus.FindElement(itemFocus);
+
                 Actions action = new Actions(driverFocus);
-                action.MoveToElement(Select).Release().Build().Perform();
+
+                action.MoveToElement(select).Release().Build().Perform();
             }
-            catch (Exception Fail)
+            catch (Exception fail)
             {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
+                throw new Exception(fail.Message + "\n\n" + fail.InnerException + "\n\n" + fail.StackTrace);
             }
         }
 
@@ -680,25 +762,44 @@ namespace Util
         ///
         /// </summary>
         /// <param name="driverNumberText"> Navigator controller. </param>
-        /// <param name="Element"> Element identified in web page </param>
-        /// <param name="Text"> Text extracted from the element </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
+        /// <param name="element"> Element identified in web page </param>
+        /// <param name="text"> Text extracted from the element </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string ExtractNumberOfText(IWebDriver driverNumberText, By Element, string Text, int Timeout = 10)
+        public string ExtractNumberOfText(IWebDriver driverNumberText, By element, string text, int timeout = 10, int tried = 10)
         {
-            try
+            var statement = false;
+
+            var triedCount = 0;
+
+            do
             {
-                WebDriverWait WaitList = new WebDriverWait(driverNumberText, TimeSpan.FromSeconds(Timeout));
-                WaitList.Until(drv => drv.FindElement(Element).Displayed);
-                WaitList.Until(drv => drv.FindElement(Element).Enabled);
-                Text = driverNumberText.FindElement(Element).Text;
-            }
-            catch (Exception Fail)
-            {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
-            Match number = Regex.Match(Text, "(\\d+)");
-            string result = Convert.ToString(number);
+                triedCount++;
+                try
+                {
+                    var waitList = new WebDriverWait(driverNumberText, TimeSpan.FromSeconds(timeout));
+
+                    waitList.Until(drv => drv.FindElement(element).Displayed);
+
+                    waitList.Until(drv => drv.FindElement(element).Enabled);
+
+                    text = driverNumberText.FindElement(element).Text;
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
+
+            var number = Regex.Match(text, "(\\d+)");
+
+            var result = Convert.ToString(number);
+
             return result;
         }
 
@@ -706,91 +807,128 @@ namespace Util
         /// Method for extracting attribute value from a tag.
         /// </summary>
         /// <param name="driverValue"> Navigator controller. </param>
-        /// <param name="ElementValue"> Element on which the attribute value is extracted. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
+        /// <param name="elementValue"> Element on which the attribute value is extracted. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string ValueExtract(IWebDriver driverValue, By ElementValue, int Timeout = 10)
+        public string ValueExtract(IWebDriver driverValue, By elementValue, int timeout = 10, int tried = 10)
         {
-            string Value = null;
+            var statement = false;
 
-            try
+            var triedCount = 0;
+
+            string value = null;
+
+            do
             {
-                WebDriverWait WaitClick = new WebDriverWait(driverValue, TimeSpan.FromSeconds(Timeout));
-                WaitClick.Until(drv => drv.FindElement(ElementValue).Displayed);
-                WaitClick.Until(drv => drv.FindElement(ElementValue).Enabled);
+                triedCount++;
+                try
+                {
+                    var waitClick = new WebDriverWait(driverValue, TimeSpan.FromSeconds(timeout));
 
-                Value = driverValue.FindElement(ElementValue).GetAttribute("value");
-            }
-            catch (Exception Fail)
-            {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                    waitClick.Until(drv => drv.FindElement(elementValue).Displayed);
 
-            return Value;
+                    waitClick.Until(drv => drv.FindElement(elementValue).Enabled);
+
+                    value = driverValue.FindElement(elementValue).GetAttribute("value");
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
+
+            return value;
         }
 
         /// <summary>
         /// Method for extracting text from a tag.
         /// </summary>
         /// <param name="driverText"> Navigator controller. </param>
-        /// <param name="ElementText"> Element on which the text is extracted. </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
+        /// <param name="elementText"> Element on which the text is extracted. </param>
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string TextExtract(IWebDriver driverText, By ElementText, int Timeout = 10)
+        public string TextExtract(IWebDriver driverText, By elementText, int timeout = 10, int tried = 10)
         {
-            string Text = null;
+            string text = null;
 
-            try
+            var statement = false;
+
+            var triedCount = 0;
+
+            do
             {
-                WebDriverWait WaitClick = new WebDriverWait(driverText, TimeSpan.FromSeconds(Timeout));
-                WaitClick.Until(drv => drv.FindElement(ElementText).Displayed);
-                WaitClick.Until(drv => drv.FindElement(ElementText).Enabled);
+                triedCount++;
+                try
+                {
+                    var waitClick = new WebDriverWait(driverText, TimeSpan.FromSeconds(timeout));
 
-                Text = driverText.FindElement(ElementText).Text;
-            }
-            catch (Exception Fail)
-            {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                    waitClick.Until(drv => drv.FindElement(elementText).Displayed);
 
-            return Text;
+                    waitClick.Until(drv => drv.FindElement(elementText).Enabled);
+
+                    text = driverText.FindElement(elementText).Text;
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
+
+            return text;
         }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="driverDragAndDrop"> Navigator controller. </param>
-        /// <param name="DragAndDrop"> Element on which it is performed Drag and drop </param>
+        /// <param name="dragAndDrop"> Element on which it is performed Drag and drop </param>
         /// <param name="x"> Horizontal position  </param>
         /// <param name="y"> Upright position </param>
-        /// <param name="Timeout"> Wait for generate error. </param>
-        public void DragAndDrop(IWebDriver driverDragAndDrop, By DragAndDrop, int x, int y, int Timeout = 10)
+        /// <param name="timeout"> Wait for generate error. </param>
+        /// <param name="tried">Limit attempts to generate error</param>
+        public void DragAndDrop(IWebDriver driverDragAndDrop, By dragAndDrop, int x, int y, int timeout = 10, int tried = 10)
         {
-            try
-            {
-                WebDriverWait WaitClick = new WebDriverWait(driverDragAndDrop, TimeSpan.FromSeconds(Timeout));
-                WaitClick.Until(drv => drv.FindElement(DragAndDrop).Displayed);
-                WaitClick.Until(drv => drv.FindElement(DragAndDrop).Enabled);
+            var statement = false;
 
-                IWebElement Element = driverDragAndDrop.FindElement(DragAndDrop);
-                Actions action = new Actions(driverDragAndDrop);
-                action.MoveToElement(Element).Release().DragAndDropToOffset(Element, x, y).Build().Perform();
-            }
-            catch (Exception Fail)
+            var triedCount = 0;
+
+            do
             {
-                throw new Exception(Fail.Message + "\n\n" + Fail.InnerException + "\n\n" + Fail.StackTrace);
-            }
+                triedCount++;
+                try
+                {
+                    var waitClick = new WebDriverWait(driverDragAndDrop, TimeSpan.FromSeconds(timeout));
+
+                    waitClick.Until(drv => drv.FindElement(dragAndDrop).Displayed);
+
+                    waitClick.Until(drv => drv.FindElement(dragAndDrop).Enabled);
+
+                    var element = driverDragAndDrop.FindElement(dragAndDrop);
+
+                    var action = new Actions(driverDragAndDrop);
+
+                    action.MoveToElement(element).Release().DragAndDropToOffset(element, x, y).Build().Perform();
+
+                    statement = true;
+                }
+                catch (Exception fail)
+                {
+                    if (triedCount >= tried) throw new Exception(fail.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
         }
-
-        //public void SwitchToNewTab()
-        //{
-        //    Console.WriteLine("SwitchToNewTab");
-        //}
-
-        //public void SwitchToNewFrame()
-        //{
-        //    Console.WriteLine("SwitchToNewFrame");
-        //}
 
         #endregion Advance
     }
