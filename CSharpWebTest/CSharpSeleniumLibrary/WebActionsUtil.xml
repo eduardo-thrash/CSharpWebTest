@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebActionsUtil</name>
+    </assembly>
+    <members>
+        <member name="T:WebActionsUtil.UtilAction">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.AccessPage(OpenQA.Selenium.IWebDriver,System.String,System.Boolean)">
+            <summary>
+            Method to access a web page through a URL
+            </summary>
+            <param name="driverUrl">Declared controller type IWebDriver</param>
+            <param name="url">Website URL</param>
+            <param name="maximize">Option to maximize or not browser window</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.Clear(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
+            <summary>
+            Method to clear information from an input type field
+            /// </summary>
+            <param name="driverClear"> Navigator controller </param>
+            <param name="elementClear"> Page input type element on the that it field clear</param>
+            <param name="timeout"> Wait for generate error </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.Click(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
+            <summary>
+            Method for apply click on element.
+            </summary>
+            <param name="driverClick"> Navigator controller </param>
+            <param name="elementClick"> Page element on the that make click it </param>
+            <param name="timeout"> Wait for generate error </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.Sendkeys(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for entering text to input type field
+            </summary>
+            <param name="driverSendKeys"> Navigator controller </param>
+            <param name="elementSendKeys"> Page element on the that apply text on input field. </param>
+            <param name="text">Text to add on input field</param>
+            <param name="timeout"> Wait for generate error </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.EnterAfterSendkeys(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for entering text to input type field
+            </summary>
+            <param name="driverSendKeys"> Navigator controller </param>
+            <param name="elementSendKeys"> Page element on the that apply text on input field. </param>
+            <param name="text">Text to add on input field</param>
+            <param name="timeout"> Wait for generate error </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.TabAfterSendkeys(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for entering text to input type field
+            </summary>
+            <param name="driverSendKeys"> Navigator controller </param>
+            <param name="elementSendKeys"> Page element on the that aplicate text on input field. </param>
+            <param name="text">Text to add on input field</param>
+            <param name="timeout"> Wait for generate error </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.ClearBeforeSendkeys(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for entering text to input type field
+            </summary>
+            <param name="driverSendKeys"> Navigator controller. </param>
+            <param name="elementSendKeys"> Page element on the that aplicate text on input field. </param>
+            <param name="text">Text to add on input field. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectDropDownList(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for select item of a dropdown.
+            </summary>
+            <param name="driverList"> Navigator controller </param>
+            <param name="listItem"> Dropdown of page on the that the options are displayed. </param>
+            <param name="option"> Option text to select. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectDropDownList(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for select item of a dropdown.
+            </summary>
+            <param name="driverList"> Navigator controller </param>
+            <param name="listItem"> Dropdown of page on the that the options are displayed. </param>
+            <param name="option"> Option text to select. </param>
+            <param name="tag"> HTML listing options tag. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectComboAutocompleteList(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for select item of a ComboBox list.
+            </summary>
+            <param name="driverList"> Navigator controller </param>
+            <param name="listItem"> ComboBox list of page on the that the options are displayed. </param>
+            <param name="textOption"> Option text to select. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectComboAutocompleteList(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for select item of a ComboBox list.
+            </summary>
+            <param name="driverList"> Navigator controller </param>
+            <param name="listItem"> ComboBox list of page on the that the options are displayed. </param>
+            <param name="textOption"> Option text to select. </param>
+            /// <param name="tag"> HTML listing options tag. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectByText(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for selected option by text.
+            </summary>
+            <param name="driverList"> Navigator controller. </param>
+            <param name="listItem"> Select of page with options. </param>
+            <param name="byText"> Text of option to select. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectByIndex(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method for selected option by Index.
+            </summary>
+            <param name="driverList"> Navigator controller. </param>
+            <param name="listItem"> Select of page with options. </param>
+            <param name="byIndex"> Index of option to select. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.SelectByValue(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+            <summary>
+            Method for selected option by Value.
+            </summary>
+            <param name="driverList"> Navigator controller. </param>
+            <param name="listItem"> Select of page with options. </param>
+            <param name="byValue"> Value of option to select. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.WaitElement(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
+            <summary>
+            Method for placing focus on an element.
+            </summary>
+            <param name="driverFocus"> Navigator controller. </param>
+            <param name="itemFocus"> Element on which the focus is placed. </param>
+            <param name="timeout"> Wait for generate error. </param>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.ExtractNumberOfText(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.String,System.Int32,System.Int32)">
+             <summary>
+            
+             </summary>
+             <param name="driverNumberText"> Navigator controller. </param>
+             <param name="element"> Element identified in web page </param>
+             <param name="text"> Text extracted from the element </param>
+             <param name="timeout"> Wait for generate error. </param>
+             <param name="tried">Limit attempts to generate error</param>
+             <returns></returns>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.ValueExtract(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
+            <summary>
+            Method for extracting attribute value from a tag.
+            </summary>
+            <param name="driverValue"> Navigator controller. </param>
+            <param name="elementValue"> Element on which the attribute value is extracted. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.TextExtract(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
+            <summary>
+            Method for extracting text from a tag.
+            </summary>
+            <param name="driverText"> Navigator controller. </param>
+            <param name="elementText"> Element on which the text is extracted. </param>
+            <param name="timeout"> Wait for generate error. </param>
+            <param name="tried">Limit attempts to generate error</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebActionsUtil.UtilAction.DragAndDrop(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32,System.Int32,System.Int32)">
+             <summary>
+            
+             </summary>
+             <param name="driverDragAndDrop"> Navigator controller. </param>
+             <param name="dragAndDrop"> Element on which it is performed Drag and drop </param>
+             <param name="x"> Horizontal position  </param>
+             <param name="y"> Upright position </param>
+             <param name="timeout"> Wait for generate error. </param>
+             <param name="tried">Limit attempts to generate error</param>
+        </member>
+    </members>
+</doc>
