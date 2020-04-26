@@ -147,7 +147,7 @@
             <param name="timeout"> Wait for generate error. </param>
             <param name="tried">Limit attempts to generate error</param>
         </member>
-        <member name="M:WebActionsUtil.UtilAction.SelectItemInFocus(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32)">
+        <member name="M:WebActionsUtil.UtilAction.WaitElement(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.By,System.Int32,System.Int32)">
             <summary>
             Method for placing focus on an element.
             </summary>

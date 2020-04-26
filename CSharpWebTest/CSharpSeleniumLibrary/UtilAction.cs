@@ -35,7 +35,7 @@ namespace WebActionsUtil
         /// <param name="elementClear"> Page input type element on the that it field clear</param>
         /// <param name="timeout"> Wait for generate error </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void Clear(IWebDriver driverClear, By elementClear, int timeout = 10, int tried = 10)
+        public void Clear(IWebDriver driverClear, By elementClear, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -78,7 +78,7 @@ namespace WebActionsUtil
         /// <param name="elementClick"> Page element on the that make click it </param>
         /// <param name="timeout"> Wait for generate error </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void Click(IWebDriver driverClick, By elementClick, int timeout = 10, int tried = 10)
+        public void Click(IWebDriver driverClick, By elementClick, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -99,9 +99,7 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverClick.FindElement(elementClick));
 
-                    action.Release().Build().Perform();
-
-                    driverClick.FindElement(elementClick).Click();
+                    action.Release().Click().Build().Perform();
 
                     statement = true;
                 }
@@ -122,7 +120,7 @@ namespace WebActionsUtil
         /// <param name="text">Text to add on input field</param>
         /// <param name="timeout"> Wait for generate error </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void Sendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 10)
+        public void Sendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -143,11 +141,9 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
-                    action.Release().Build().Perform();
+                    action.Release().Click().SendKeys(text);
 
-                    driverSendKeys.FindElement(elementSendKeys).Click();
-
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
+                    action.Build().Perform();
 
                     statement = true;
                 }
@@ -168,7 +164,7 @@ namespace WebActionsUtil
         /// <param name="text">Text to add on input field</param>
         /// <param name="timeout"> Wait for generate error </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void EnterAfterSendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 10)
+        public void EnterAfterSendkeys(IWebDriver driverSendKeys, By elementSendKeys, string text, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -189,13 +185,11 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
-                    action.Release().Build().Perform();
+                    action.Release().Click().SendKeys(text);
 
-                    driverSendKeys.FindElement(elementSendKeys).Click();
+                    action.SendKeys(Keys.Enter);
 
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
-
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(Keys.Enter);
+                    action.Build().Perform();
 
                     statement = true;
                 }
@@ -237,13 +231,11 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
-                    action.Release().Build().Perform();
+                    action.Release().Click().SendKeys(text);
 
-                    driverSendKeys.FindElement(elementSendKeys).Click();
+                    action.SendKeys(Keys.Tab);
 
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
-
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(Keys.Tab);
+                    action.Build().Perform();
 
                     statement = true;
                 }
@@ -285,13 +277,19 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
 
-                    action.Release().Build().Perform();
+                    action.Release().Click();
 
-                    driverSendKeys.FindElement(elementSendKeys).Click();
+                    action.Build().Perform();
 
                     driverSendKeys.FindElement(elementSendKeys).Clear();
 
-                    driverSendKeys.FindElement(elementSendKeys).SendKeys(text);
+                    action.MoveToElement(driverSendKeys.FindElement(elementSendKeys));
+
+                    action.Release().Click();
+
+                    action.SendKeys(text);
+
+                    action.Build().Perform();
 
                     statement = true;
                 }
@@ -316,7 +314,7 @@ namespace WebActionsUtil
         /// <param name="option"> Option text to select. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, int timeout = 10, int tried = 10)
+        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -337,9 +335,9 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverList.FindElement(listItem));
 
-                    action.Release().Build().Perform();
+                    action.Release().Click();
 
-                    driverList.FindElement(listItem).Click();
+                    action.Build().Perform();
 
                     statement = true;
                 }
@@ -392,7 +390,7 @@ namespace WebActionsUtil
         /// <param name="tag"> HTML listing options tag. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, string tag, int timeout = 10, int tried = 10)
+        public void SelectDropDownList(IWebDriver driverList, By listItem, string option, string tag, int timeout = 10, int tried = 1)
         {
             var statementList = false;
 
@@ -413,9 +411,7 @@ namespace WebActionsUtil
 
                     action.MoveToElement(driverList.FindElement(listItem));
 
-                    action.Release().Build().Perform();
-
-                    driverList.FindElement(listItem).Click();
+                    action.Release().Click().Build().Perform();
 
                     statementList = true;
                 }
@@ -467,7 +463,7 @@ namespace WebActionsUtil
         /// <param name="textOption"> Option text to select. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, int timeout = 10, int tried = 10)
+        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, int timeout = 10, int tried = 1)
         {
             var statementList = false;
 
@@ -484,9 +480,13 @@ namespace WebActionsUtil
 
                     waitList.Until(drv => drv.FindElement(listItem).Enabled);
 
-                    driverList.FindElement(listItem).Click();
+                    var actionList = new Actions(driverList);
 
-                    driverList.FindElement(listItem).SendKeys(textOption);
+                    actionList.MoveToElement(driverList.FindElement(listItem)).Release().Click();
+
+                    actionList.SendKeys(textOption);
+
+                    actionList.Build().Perform();
 
                     statementList = true;
                 }
@@ -539,7 +539,7 @@ namespace WebActionsUtil
         /// /// <param name="tag"> HTML listing options tag. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, string tag, int timeout = 10, int tried = 10)
+        public void SelectComboAutocompleteList(IWebDriver driverList, By listItem, string textOption, string tag, int timeout = 10, int tried = 1)
         {
             var statementList = false;
 
@@ -555,9 +555,13 @@ namespace WebActionsUtil
 
                     waitList.Until(drv => drv.FindElement(listItem).Enabled);
 
-                    driverList.FindElement(listItem).Click();
+                    var actionList = new Actions(driverList);
 
-                    driverList.FindElement(listItem).SendKeys(textOption);
+                    actionList.MoveToElement(driverList.FindElement(listItem)).Release().Click();
+
+                    actionList.SendKeys(textOption);
+
+                    actionList.Build().Perform();
 
                     statementList = true;
                 }
@@ -608,7 +612,7 @@ namespace WebActionsUtil
         /// <param name="byText"> Text of option to select. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectByText(IWebDriver driverList, By listItem, string byText, int timeout = 10, int tried = 10)
+        public void SelectByText(IWebDriver driverList, By listItem, string byText, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -650,7 +654,7 @@ namespace WebActionsUtil
         /// <param name="byIndex"> Index of option to select. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectByIndex(IWebDriver driverList, By listItem, int byIndex, int timeout = 10, int tried = 10)
+        public void SelectByIndex(IWebDriver driverList, By listItem, int byIndex, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -692,7 +696,7 @@ namespace WebActionsUtil
         /// <param name="byValue"> Value of option to select. </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void SelectByValue(IWebDriver driverList, By listItem, string byValue, int timeout = 10, int tried = 10)
+        public void SelectByValue(IWebDriver driverList, By listItem, string byValue, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -732,26 +736,38 @@ namespace WebActionsUtil
         /// <param name="driverFocus"> Navigator controller. </param>
         /// <param name="itemFocus"> Element on which the focus is placed. </param>
         /// <param name="timeout"> Wait for generate error. </param>
-        public void SelectItemInFocus(IWebDriver driverFocus, By itemFocus, int timeout = 10)
+        public void WaitElement(IWebDriver driverFocus, By itemFocus, int timeout = 10, int tried = 1)
         {
-            try
+            var statement = false;
+
+            var triedCount = 0;
+
+            do
             {
-                var waitList = new WebDriverWait(driverFocus, TimeSpan.FromSeconds(timeout));
+                triedCount++;
+                try
+                {
+                    var waitClear = new WebDriverWait(driverFocus, TimeSpan.FromSeconds(timeout));
 
-                waitList.Until(drv => drv.FindElement(itemFocus).Displayed);
+                    waitClear.Until(drv => drv.FindElement(itemFocus).Displayed);
 
-                waitList.Until(drv => drv.FindElement(itemFocus).Enabled);
+                    waitClear.Until(drv => drv.FindElement(itemFocus).Enabled);
 
-                var select = driverFocus.FindElement(itemFocus);
+                    var action = new Actions(driverFocus);
 
-                Actions action = new Actions(driverFocus);
+                    action.MoveToElement(driverFocus.FindElement(itemFocus));
 
-                action.MoveToElement(select).Release().Build().Perform();
-            }
-            catch (Exception fail)
-            {
-                throw new Exception(fail.Message + "\n\n" + fail.InnerException + "\n\n" + fail.StackTrace);
-            }
+                    action.Release().Build().Perform();
+
+                    statement = true;
+                }
+                catch (Exception ex)
+                {
+                    if (triedCount >= tried) throw new Exception(ex.Message);
+
+                    Thread.Sleep(1000);
+                }
+            } while (!statement);
         }
 
         #endregion Select
@@ -767,7 +783,7 @@ namespace WebActionsUtil
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string ExtractNumberOfText(IWebDriver driverNumberText, By element, string text, int timeout = 10, int tried = 10)
+        public string ExtractNumberOfText(IWebDriver driverNumberText, By element, string text, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -811,7 +827,7 @@ namespace WebActionsUtil
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string ValueExtract(IWebDriver driverValue, By elementValue, int timeout = 10, int tried = 10)
+        public string ValueExtract(IWebDriver driverValue, By elementValue, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
@@ -853,7 +869,7 @@ namespace WebActionsUtil
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
         /// <returns></returns>
-        public string TextExtract(IWebDriver driverText, By elementText, int timeout = 10, int tried = 10)
+        public string TextExtract(IWebDriver driverText, By elementText, int timeout = 10, int tried = 1)
         {
             string text = null;
 
@@ -896,7 +912,7 @@ namespace WebActionsUtil
         /// <param name="y"> Upright position </param>
         /// <param name="timeout"> Wait for generate error. </param>
         /// <param name="tried">Limit attempts to generate error</param>
-        public void DragAndDrop(IWebDriver driverDragAndDrop, By dragAndDrop, int x, int y, int timeout = 10, int tried = 10)
+        public void DragAndDrop(IWebDriver driverDragAndDrop, By dragAndDrop, int x, int y, int timeout = 10, int tried = 1)
         {
             var statement = false;
 
