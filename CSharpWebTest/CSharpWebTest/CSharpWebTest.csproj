@@ -124,7 +124,6 @@
     <Compile Include="Pages\EasyManagment\EasyManagementPrincipalPage.cs" />
     <Compile Include="StepDefinitions\EasyManagement\CommonSteps.cs" />
     <Compile Include="StepDefinitions\EasyManagement\MenuSteps.cs" />
-    <Compile Include="TestWeb\EasyManagementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\InternetHerokuapp\" />
+    <Folder Include="TestWeb\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSharpSeleniumLibrary\WebActionsUtil.csproj">
