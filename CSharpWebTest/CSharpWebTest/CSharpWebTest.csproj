@@ -125,8 +125,15 @@
     <Compile Include="StepDefinitions\EasyManagement\CommonSteps.cs" />
     <Compile Include="StepDefinitions\EasyManagement\MenuSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseA\CaseADefinitionA.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseA\CaseADefinitionB.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseB\CaseBDefinitionA.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseB\CaseBDefinitionB.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseB\CaseBDefinitionC.cs" />
+    <Compile Include="StepDefinitions\InternetHerokuapp\CaseB\CaseBDefinitionD.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Features\CompanyExplorer.feature" />
     <None Include="Features\EasyManagment.feature" />
     <None Include="Features\InternetHerokuapp.feature" />
     <None Include="packages.config" />
